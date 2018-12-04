@@ -1,5 +1,6 @@
 import Login from './Login'
 import Splash from './Splash'
+import TabNavigator from './TabNavigator'
 import {createStackNavigator, createAppContainer } from 'react-navigation'
 
 const AppNavigator = createStackNavigator ({
@@ -9,6 +10,9 @@ const AppNavigator = createStackNavigator ({
   },
   Login: {
     screen: Login
+  },
+  TabNavigator: {
+    screen: TabNavigator
   }
 }, {
   //Setting
