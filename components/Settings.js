@@ -12,9 +12,6 @@ export default class ListDataSecond extends React.Component {
   }
 
   render() {
-    console.log('====================================');
-    console.log('run here');
-    console.log('====================================');
     return (
       <View
         style={{
