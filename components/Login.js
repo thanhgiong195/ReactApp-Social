@@ -1,11 +1,26 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, TextInput, TouchableOpacity, TouchableWithoutFeedback, Keyboard} from 'react-native';
+import {
+  Platform,
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  Keyboard
+} from 'react-native';
+
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {COLOR_PINK, COLOR_PINK_LIGHT, COLOR_FACEBOOK, COLOR_PINK_MEDIUM} from './myColor';
 
-type Props = {};
-export default class Login extends Component<Props> {
+export default class Login extends Component {
+
+  async componentDidMount () {
+    setTimeout(() => {
+      this.props.navigation.navigate("TabNavigator")
+    }, 1000);
+  }
 
   render() {
     const Divider = (props) => {
