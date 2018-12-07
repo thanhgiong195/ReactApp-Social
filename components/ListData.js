@@ -1,62 +1,9 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet, ActivityIndicator, Image, Text, View, FlatList, Alert, RefreshControl} from 'react-native';
+import {TouchableOpacity, StyleSheet, ActivityIndicator, View, FlatList, RefreshControl} from 'react-native';
 import {COLOR_PINK, COLOR_PINK_LIGHT, COLOR_FACEBOOK, COLOR_PINK_MEDIUM} from './myColor';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import Swipeout from 'react-native-swipeout';
-
-class FlatListItem extends Component {
-  render() {
-    const swipeSettings = {
-      autoClose: true,
-
-      onClose: (secId, rowId, direction) => {
-        if(this.state.activeRowKey != null) {
-          this.setState({ activeRowKey: null });
-        }
-      },
-
-      onOpen: (secId, rowId, direction) => {
-        this.setState({ activeRowKey: this.props.item.id });
-      },
-      right: [
-        {
-          onPress: () => {
-            Alert.alert (
-              'Alert',
-              'Are you sure you want to delete ?',
-              [
-                {text: 'No', onPress: () => console.log('Cancel pressed'), style: 'cancel'},
-                {text: 'Yes', onPress: () => {
-
-                }},
-              ],
-              { cancelable: true}
-            );
-          },
-          text: 'Delete', type: 'delete'
-        }
-      ],
-      rowId: this.props.item.id,
-      sectionId: 1
-    };
-
-    return (
-      <Swipeout {...swipeSettings}>
-        <View style={{flex:1,flexDirection:'row',marginBottom: 1, padding: 9, backgroundColor:'mediumseagreen'}}>
-          <Image 
-            style={{width: 50, height: 50}} 
-            source={{uri: this.props.item.image}} 
-          />
-          <View style={{flex: 1,flexDirection:'column', marginLeft: 10}}>
-            <Text style={{color: 'white'}}>Title: {this.props.item.title}</Text>
-            <Text style={{color: 'white'}}>Release year: {this.props.item.releaseYear}</Text>
-          </View>
-        </View>
-      </Swipeout>
-    )
-  }
-}
+import AddModal from './AddModal'
+import FlatListItem from './FlatListItem'
 
 export default class ListData extends Component {
 
@@ -81,17 +28,37 @@ export default class ListData extends Component {
     this._refreshDataFromServer();
   }
 
-  _refreshDataFromServer = () => {
+  //get data
+  async _refreshDataFromServer() {
     this.setState({ refreshing: true });
-    fetch("http://demo4051565.mockable.io/movies")
+    fetch("https://5c0644c8c16e120013947983.mockapi.io/movies")
     .then((res) => res.json())
     .then((resJson) => {
       this.setState({
         isLoading: false,
         refreshing: false,
-        dataMovies: resJson.movies
+        dataMovies: resJson
       });
     })
+    .catch((error) => {
+      console.error(error);
+    });
+  }
+
+  //post data
+  async _insertDataToServer(params) {
+    fetch("https://5c0644c8c16e120013947983.mockapi.io/movies"), {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(params)
+    }
+    .then((res) => res.json())
+    .catch((error) => {
+      console.error(error);
+    });
   }
 
   _onRefresh = () => {
@@ -101,10 +68,12 @@ export default class ListData extends Component {
   _keyExtractor = (item, index) => item.id;
 
   _renderItem = ({item}) => (
-    <FlatListItem
-      item={item}
-    />
-  );
+    <FlatListItem item={item}/>
+  )
+
+  _onPressAdd = () => {
+    this.refs.addModal.showAddModal();
+  }
 
   render() {
     if (this.state.isLoading) {
@@ -116,7 +85,26 @@ export default class ListData extends Component {
     }
     return (
       <View style={{flex: 1}}>
-        <Text style={{textAlign: 'center', fontSize: 18, padding: 10}}>List movies today</Text>
+        <View 
+          style={{
+            height: 50,
+            flexDirection: 'row',
+            backgroundColor:'mediumseagreen',
+            justifyContent:'flex-end',
+            alignItems: 'center',
+            borderBottomColor: 'rgba(255,255,255,0.4)',
+            borderBottomWidth: 1
+          }}>
+
+          <TouchableOpacity style={{marginRight: 20}} onPress={this._onPressAdd}>
+            <Ionicons 
+              name="ios-add-circle" 
+              size={30} 
+              color={'white'}
+            ></Ionicons>
+          </TouchableOpacity>
+        </View>
+
         <FlatList 
           data={this.state.dataMovies}
           keyExtractor={this._keyExtractor}
@@ -129,6 +117,7 @@ export default class ListData extends Component {
           }
         >
         </FlatList>
+       <AddModal ref={'addModal'} parentFlatlist={this}></AddModal>
       </View>
     );
   }

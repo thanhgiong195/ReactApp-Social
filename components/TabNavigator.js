@@ -1,25 +1,29 @@
 import React from 'react';
-import { Text, View } from 'react-native';
-import { createBottomTabNavigator, createAppContainer } from 'react-navigation';
+import { createBottomTabNavigator, createAppContainer } from 'react-navigation'
 
-import ListData from './ListData';
-import Settings from './Settings';
-import Chat from './Chat';
+import ListData from './ListData'
+import Settings from './Settings'
+import Chat from './Chat'
+import Cloudy from './Cloudy'
+import Notification from './Notification'
 
 const TabNavigator = createBottomTabNavigator({
   Tab1: ListData,
-  Tab3: Chat,
-  Tab2: Settings,
+  Tab2: Chat,
+  Tab3: Cloudy,
+  Tab4: Notification,
+  Tab5: Settings,
 }, {
   tabBarOptions: {
     gesturesEnabled: true, //scoll tab
     swipeEnabled: true,
     animationEnabled: true,
-    // activeTintColor: 'white', //active color
+    activeTintColor: '#FFA500', //active color
     activeBackgroundColor: 'pink', //active background color
+    showLabel: false,
     labelStyle: {
       fontSize: 14,
-      padding: 5
+      padding: 0
     }
   }
 });
