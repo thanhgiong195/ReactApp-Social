@@ -1,18 +1,21 @@
-import Splash from './Splash'
-import Login from './Login'
-import TabNavigator from './TabNavigator'
+import React, {Component} from 'react';
 import ListData from './ListData'
 import DetailsItem from './DetailsItem'
 import {createStackNavigator, createAppContainer } from 'react-navigation'
 
+class Home extends Component {
+  render() {
+    return (
+      <ListData navigation={this.props.navigation} />
+    )
+  }
+}
+
 const AppNavigator = createStackNavigator ({
-  // Splash: Splash,
-  // Login: Login,
-  TabNavigator: TabNavigator,
-  ListData: ListData,
+  Home: Home,
   DetailsItem: DetailsItem
 }, {
-  initalRouteName: 'TabNavigator',
+  initialRouteName: 'Home',
   header: null,
   headerMode: 'none',
   navigationOptions: {

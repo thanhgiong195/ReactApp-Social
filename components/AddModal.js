@@ -31,7 +31,7 @@ export default class AddModal extends Component {
           height: 250,
           borderRadius: Platform.OS === 'ios' ? 30 : 0
         }}>
-        <Text>New food information</Text>
+        <Text>Add a new movie</Text>
         <TouchableOpacity
           onPress={() => this.setState({ modalVisible: false })}>
           <Text>Hide Modal</Text>

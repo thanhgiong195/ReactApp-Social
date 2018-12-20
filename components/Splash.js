@@ -22,7 +22,8 @@ export default class Splash extends Component {
         duration: 1000,
       }),
     ]).start(() => {
-      this.props.navigation.navigate("Login")
+      // this.props.navigation.navigate("Login")
+      this.props.navigation.navigate("TabNavigator")
     })
   }
 

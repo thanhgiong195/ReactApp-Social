@@ -1,14 +1,14 @@
 import React from 'react';
 import { createBottomTabNavigator, createAppContainer } from 'react-navigation'
 
-import ListData from './ListData'
+import Home from './Home'
 import Settings from './Settings'
 import Chat from './Chat'
 import Cloudy from './Cloudy'
 import Notification from './Notification'
 
 const TabNavigator = createBottomTabNavigator({
-  Tab1: ListData,
+  Tab1: Home,
   Tab2: Chat,
   Tab3: Cloudy,
   Tab4: Notification,
