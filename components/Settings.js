@@ -20,7 +20,7 @@ export default class ListDataSecond extends React.Component {
           alignItems: 'center'
         }}>
           <Text style={{fontSize: 30}}>
-            This is Tab Data Second
+            This is Tab Settings
           </Text>
       </View>
     )

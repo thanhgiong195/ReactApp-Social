@@ -7,13 +7,6 @@ import FlatListItem from './FlatListItem'
 
 export default class ListData extends Component {
 
-  static navigationOptions = {
-    tabBarLabel: 'Home',
-    tabBarIcon: ({tintColor}) => (
-      <Ionicons name="ios-home" size={20} color={'blue'}></Ionicons>
-    )
-  }
-
   constructor(props) {
     super(props);
     this.state = {
@@ -46,20 +39,20 @@ export default class ListData extends Component {
   }
 
   //post data
-  async _insertDataToServer(params) {
-    fetch("https://5c0644c8c16e120013947983.mockapi.io/movies"), {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(params)
-    }
-    .then((res) => res.json())
-    .catch((error) => {
-      console.error(error);
-    });
-  }
+  // async _insertDataToServer(params) {
+  //   fetch("https://5c0644c8c16e120013947983.mockapi.io/movies"), {
+  //     method: 'POST',
+  //     headers: {
+  //       'Accept': 'application/json',
+  //       'Content-Type': 'application/json'
+  //     },
+  //     body: JSON.stringify(params)
+  //   }
+  //   .then((res) => res.json())
+  //   .catch((error) => {
+  //     console.error(error);
+  //   });
+  // }
 
   _onRefresh = () => {
     this._refreshDataFromServer();
@@ -68,7 +61,7 @@ export default class ListData extends Component {
   _keyExtractor = (item, index) => item.id;
 
   _renderItem = ({item}) => (
-    <FlatListItem item={item}/>
+    <FlatListItem item={item} navigation={this.props.navigation} />
   )
 
   _onPressAdd = () => {
