@@ -7,6 +7,13 @@ import FlatListItem from './FlatListItem'
 
 export default class ListData extends Component {
 
+  static navigationOptions = {
+    tabBarLabel: 'Home',
+    tabBarIcon: ({tintColor}) => (
+      <Ionicons name="ios-chatbubbles" size={20} color={'blue'}></Ionicons>
+    )
+  }
+
   constructor(props) {
     super(props);
     this.state = {
@@ -38,7 +45,7 @@ export default class ListData extends Component {
     });
   }
 
-  //post data
+  // post data
   // async _insertDataToServer(params) {
   //   fetch("https://5c0644c8c16e120013947983.mockapi.io/movies"), {
   //     method: 'POST',

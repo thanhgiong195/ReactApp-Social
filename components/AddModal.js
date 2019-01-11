@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Dimensions, Platform, TouchableOpacity, StyleSheet, ActivityIndicator, Image, Text, View, FlatList, Alert, RefreshControl} from 'react-native';
+import {StyleSheet, Dimensions, Platform, TouchableOpacity, Text, View, TextInput} from 'react-native';
 import Modal from 'react-native-modal';
 import Button from 'react-native-button';
 
@@ -8,7 +8,7 @@ var screen = Dimensions.get('window');
 export default class AddModal extends Component {
 
   state = {
-    modalVisible: false
+    modalVisible: false,
   }
 
   showAddModal = () => {
@@ -19,7 +19,6 @@ export default class AddModal extends Component {
     return (
       <Modal
         isVisible={this.state.modalVisible}
-        //click background hidden modal
         onBackdropPress={() => this.setState({ modalVisible: false })}
       >
         <View style={{
@@ -32,6 +31,12 @@ export default class AddModal extends Component {
           borderRadius: Platform.OS === 'ios' ? 30 : 0
         }}>
         <Text>Add a new movie</Text>
+        <TextInput
+          style={styles.textInput}
+          keyboardType='email-address'
+          placeholder="Enter title movie"
+        >
+        </TextInput>
         <TouchableOpacity
           onPress={() => this.setState({ modalVisible: false })}>
           <Text>Hide Modal</Text>
@@ -41,3 +46,11 @@ export default class AddModal extends Component {
     )
   }
 }
+
+const styles = StyleSheet.create({
+  textInput: {
+    width: 280,
+    height: 45,
+    color: '#00000090'
+  }
+});

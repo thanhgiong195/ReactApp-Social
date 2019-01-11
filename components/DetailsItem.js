@@ -6,7 +6,7 @@ export default class DetailsItem extends Component {
     const { navigation } = this.props;
     const title = navigation.getParam('title', 'NO-ID');
     const img_url = navigation.getParam('img_url');
-    const releaseYear = navigation.getParam('releaseYear', 'some default value');
+    const releaseYear = navigation.getParam('releaseYear', '');
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <Image 
@@ -16,7 +16,7 @@ export default class DetailsItem extends Component {
         <Text style={{marginTop:30}}>Title: {JSON.stringify(title)}</Text>
         <Text style={{marginTop:20}}>ReleaseYear: {JSON.stringify(releaseYear)}</Text>
         <Button 
-          style={{marginTop:40}}
+          style={{paddingTop:40}}
           title="Go to Home"
           onPress={() => this.props.navigation.navigate('Home')}
         />

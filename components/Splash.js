@@ -22,20 +22,19 @@ export default class Splash extends Component {
         duration: 1000,
       }),
     ]).start(() => {
-      // this.props.navigation.navigate("Login")
-      this.props.navigation.navigate("TabNavigator")
+      this.props.navigation.navigate("AccountUser")
     })
   }
 
   render() {
     return <View style={styles.container}>
-        <Animated.Image source={require('../images/banner.jpg')}
-               style={{...styles.logo, opacity: this.state.logoOpacity}}>
-        </Animated.Image>
-        <Animated.Text style={{...styles.title, marginTop: this.state.titleMarginTop}}>
-          Share your image for everone
-        </Animated.Text>
-      </View>
+      <Animated.Image source={require('../images/banner.jpg')}
+        style={{...styles.logo, opacity: this.state.logoOpacity}}>
+      </Animated.Image>
+      <Animated.Text style={{...styles.title, marginTop: this.state.titleMarginTop}}>
+        Share your image for everone
+      </Animated.Text>
+    </View>
   }
 }
 

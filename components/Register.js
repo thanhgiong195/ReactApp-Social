@@ -11,10 +11,9 @@ import {
 } from 'react-native';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {COLOR_PINK, COLOR_PINK_LIGHT, COLOR_FACEBOOK, COLOR_PINK_MEDIUM} from './myColor';
 
-export default class Login extends Component {
+export default class Register extends Component {
 
   constructor(props) {
     super(props);
@@ -24,15 +23,13 @@ export default class Login extends Component {
     }
   }
 
-  handleLogin = () => {
-    const { email, password } = this.state
+  handleSignUp = () => {
     firebase
       .auth()
-      .signInWithEmailAndPassword(email, password)
+      .createUserWithEmailAndPassword(this.state.email, this.state.password)
       .then(() => this.props.navigation.navigate('Main'))
       .catch(error => this.setState({ errorMessage: error.message }))
   }
-
 
   render() {
     const Divider = (props) => {
@@ -47,9 +44,9 @@ export default class Login extends Component {
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.container}>
           <View style={styles.up}>
-            <Ionicons name="ios-person" size={80} color={'#e3e3e3'}></Ionicons>
+            <Ionicons name="ios-people" size={80} color={'#e3e3e3'}></Ionicons>
             <Text style={styles.title}>
-              Login
+              Create account
             </Text>
           </View>
 
@@ -60,7 +57,8 @@ export default class Login extends Component {
                 textContentType='emailAddress'
                 keyboardType='email-address'
                 placeholder="Enter your email"
-                onChangeText={(email) => this.setState({email})}
+                onChangeText={email => this.setState({ email })}
+                value={this.state.email}
               >
               </TextInput>
             </View>
@@ -70,34 +68,24 @@ export default class Login extends Component {
                 style={styles.textInput}
                 placeholder="Enter your password"
                 secureTextEntry={true} // abc -> ***
-                onChangeText={(password) => this.setState({password})}
+                onChangeText={password => this.setState({ password })}
+                value={this.state.password}
               >
               </TextInput>
             </View>
 
-            <View style={{flexDirection: 'row', marginTop: 20}}>
-              <TouchableOpacity style={styles.loginButton} 
-                // onPress={this.handleLogin}
-                onPress={() => this.props.navigation.navigate("TabNavigator")}
-                >
-                <Text style={styles.titleButtonLogin}>LOGIN</Text>
-              </TouchableOpacity>
+            <TouchableOpacity style={styles.loginButton} 
+              onPress={this.handleSignUp}>
+              <Text style={styles.titleButtonLogin}>SIGNUP</Text>
+            </TouchableOpacity>
 
-              <TouchableOpacity style={styles.signupButton} 
-                onPress={() => this.props.navigation.navigate("Register")}>
-                <Text style={styles.titleButtonLogin}>SIGNUP</Text>
-              </TouchableOpacity>
-            </View>
-
+            
             <Divider style={styles.divider}></Divider>
 
-            <FontAwesome.Button
-              style={styles.loginButtonWithFB}
-              name="facebook"
-              backgroundColor={COLOR_FACEBOOK}
-            >
-              <Text style={styles.titleButtonLoginWithFB}>Login with Facebook</Text>
-            </FontAwesome.Button>
+            <TouchableOpacity style={styles.backButton} 
+                onPress={() => this.props.navigation.goBack()}>
+              <Text style={styles.titleButtonLogin}>Do you already have an account?</Text>
+            </TouchableOpacity>
           </View>
         </View>
       </TouchableWithoutFeedback>
@@ -143,22 +131,22 @@ const styles = StyleSheet.create({
     color: '#00000090'
   },
   loginButton: {
-    width: 140,
+    width: 300,
     height: 40,
     borderRadius: 6,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'green',
-    marginRight: 10,
+    marginTop: 20,
   },
-  signupButton: {
-    width: 140,
+  backButton: {
+    width: 300,
     height: 40,
     borderRadius: 6,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'blue',
-    marginLeft: 10,
+    backgroundColor: 'orange',
+    marginTop: 20,
   },
   titleButtonLogin: {
     fontSize: 16,

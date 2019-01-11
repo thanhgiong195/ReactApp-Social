@@ -16,11 +16,7 @@ const AppNavigator = createStackNavigator ({
   DetailsItem: DetailsItem
 }, {
   initialRouteName: 'Home',
-  header: null,
   headerMode: 'none',
-  navigationOptions: {
-    header: null
-  }
 })
 
 export default createAppContainer(AppNavigator)
