@@ -1,11 +1,18 @@
 import React, {Component} from 'react';
-import {TouchableOpacity, StyleSheet, ActivityIndicator, View, FlatList, RefreshControl} from 'react-native';
+import {Text,TouchableOpacity, StyleSheet, ActivityIndicator, View, FlatList, RefreshControl} from 'react-native';
 import {COLOR_PINK, COLOR_PINK_LIGHT, COLOR_FACEBOOK, COLOR_PINK_MEDIUM} from './myColor';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AddModal from './AddModal'
 import FlatListItem from './FlatListItem'
 
 export default class ListData extends Component {
+
+  static navigationOptions = {
+    tabBarLabel: 'Home',
+    tabBarIcon: ({tintColor}) => (
+      <Ionicons name="ios-chatbubbles" size={20} color={'blue'}></Ionicons>
+    )
+  }
 
   constructor(props) {
     super(props);
@@ -24,7 +31,7 @@ export default class ListData extends Component {
   //get data
   async _refreshDataFromServer() {
     this.setState({ refreshing: true });
-    fetch("https://5c0644c8c16e120013947983.mockapi.io/movies")
+    fetch("http://5c0644c8c16e120013947983.mockapi.io/listMovies")
     .then((res) => res.json())
     .then((resJson) => {
       this.setState({
@@ -37,22 +44,6 @@ export default class ListData extends Component {
       console.error(error);
     });
   }
-
-  //post data
-  // async _insertDataToServer(params) {
-  //   fetch("https://5c0644c8c16e120013947983.mockapi.io/movies"), {
-  //     method: 'POST',
-  //     headers: {
-  //       'Accept': 'application/json',
-  //       'Content-Type': 'application/json'
-  //     },
-  //     body: JSON.stringify(params)
-  //   }
-  //   .then((res) => res.json())
-  //   .catch((error) => {
-  //     console.error(error);
-  //   });
-  // }
 
   _onRefresh = () => {
     this._refreshDataFromServer();

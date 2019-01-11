@@ -59,8 +59,8 @@ export default class FlatListItem extends Component {
               source={{uri: this.props.item.image}} 
             />
             <View style={{flex: 1,flexDirection:'column', marginLeft: 10}}>
-              <Text style={{color: 'white'}}>Title: {this.props.item.title}</Text>
-              <Text style={{color: 'white'}}>Release year: {this.props.item.releaseYear}</Text>
+              <Text style={{color: 'white',fontWeight: 'bold',fontSize: 16}}>{this.props.item.title}</Text>
+              <Text style={{color: 'white'}}>{this.props.item.releaseYear}</Text>
             </View>
           </View>
         </TouchableWithoutFeedback>
