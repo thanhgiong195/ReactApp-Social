@@ -7,12 +7,35 @@ var screen = Dimensions.get('window');
 
 export default class AddModal extends Component {
 
-  state = {
-    modalVisible: false,
+  constructor (props) {
+    super(props);
+    this.state = {
+      modalVisible: false,
+      newMovieName: '',
+      newMovieImage: '' || 'https://s3.amazonaws.com/uifaces/faces/twitter/dshster/128.jpg',
+      newMovieYear: '' || '2018-02-14T05:30:29.486Z'
+    }
   }
 
   showAddModal = () => {
     this.setState({ modalVisible: !this.state.modalVisible });
+  }
+
+  async insertNewMovie(params) {
+    try {
+      let response = await fetch("http://5c0644c8c16e120013947983.mockapi.io/listMovies", {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(params)
+      });
+      let responseJson = await response.json();
+      return responseJson.result;
+    } catch (error) {
+      console.error('Error');
+    }
   }
 
   render() {
@@ -28,19 +51,59 @@ export default class AddModal extends Component {
           backgroundColor: 'rgba(255,255,255,0.9)',
           shadowRadius: 10,
           height: 250,
+          padding: 30,
           borderRadius: Platform.OS === 'ios' ? 30 : 0
         }}>
-        <Text>Add a new movie</Text>
+        <Text style={{fontSize: 18,fontWeight:'bold'}}>Add a new movie</Text>
         <TextInput
           style={styles.textInput}
-          keyboardType='email-address'
           placeholder="Enter title movie"
+          onChangeText={(text) => this.setState({ newMovieName: text })}
+          value={this.state.newMovieName}
         >
         </TextInput>
-        <TouchableOpacity
-          onPress={() => this.setState({ modalVisible: false })}>
-          <Text>Hide Modal</Text>
-        </TouchableOpacity>
+        <TextInput
+          style={styles.textInput}
+          placeholder="Enter year"
+          onChangeText={(text) => this.setState({ newMovieYear: text })}
+          value={this.state.newMovieYear}
+        >
+        </TextInput>
+        <TextInput
+          style={styles.textInput}
+          placeholder="Enter url image"
+          onChangeText={(text) => this.setState({ newMovieImage: text })}
+          value={this.state.newMovieImage}
+        >
+        </TextInput>
+        <View style={{flexDirection:'row'}}>
+          <Button
+            onPress={() =>  {
+              if (this.state.newMovieName.length == 0 || this.state.newMovieImage.length == 0 || this.state.newMovieYear.length == 0 ) {
+                alert("You must enter movie's...")
+                return;
+              }
+              const newMovie = {
+                title: this.state.newMovieName,
+                image: this.state.newMovieImage,
+                releaseYear: this.state.newMovieYear
+              }
+
+              this.insertNewMovie(newMovie);
+              this.setState({ modalVisible: false })
+
+              this.props.parentFlatlist._onRefresh; //auto reload
+            }}
+            style={{padding: 30}}>
+            Save
+          </Button>
+
+          <Button
+            onPress={() => this.setState({ modalVisible: false })}
+            style={{padding: 30}}>
+            Cancel
+          </Button>
+        </View>
       </View>
     </Modal>
     )
