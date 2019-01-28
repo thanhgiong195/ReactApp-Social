@@ -1,12 +1,14 @@
 import React, { Component } from 'react'
-import { View, Text, Button,Image } from "react-native";
+import { View, Text, Button, Image } from "react-native";
 
 export default class DetailsItem extends Component {
   render() {
+
     const { navigation } = this.props;
     const title = navigation.getParam('title', 'NO-ID');
     const img_url = navigation.getParam('img_url');
     const releaseYear = navigation.getParam('releaseYear', '');
+
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <Image 
@@ -20,7 +22,6 @@ export default class DetailsItem extends Component {
           title="Go to Home"
           onPress={() => this.props.navigation.navigate('Home')}
         />
-        {/* <Button title="Go back" onPress={() => this.props.navigation.goBack()} /> */}
       </View>
     )
   }

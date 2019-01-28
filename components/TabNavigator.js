@@ -1,11 +1,11 @@
 import React from 'react';
 import { createBottomTabNavigator, createAppContainer } from 'react-navigation'
 
-import Home from './Home'
-import Settings from './Settings'
-import Chat from './Chat'
-import Cloudy from './Cloudy'
-import Notification from './Notification'
+import Home from './tab/Home'
+import Settings from './tab/Settings'
+import Chat from './tab/Chat'
+import Cloudy from './tab/Cloudy'
+import Notification from './tab/Notification'
 
 const TabNavigator = createBottomTabNavigator({
   Tab1: Home,

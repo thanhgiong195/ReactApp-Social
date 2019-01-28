@@ -11,9 +11,10 @@ import {
 } from 'react-native';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {COLOR_PINK, COLOR_PINK_LIGHT, COLOR_FACEBOOK, COLOR_PINK_MEDIUM} from './myColor';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import {COLOR_PINK, COLOR_PINK_LIGHT, COLOR_FACEBOOK, COLOR_PINK_MEDIUM} from '../myColor';
 
-export default class Register extends Component {
+export default class Login extends Component {
 
   constructor(props) {
     super(props);
@@ -23,13 +24,15 @@ export default class Register extends Component {
     }
   }
 
-  handleSignUp = () => {
+  handleLogin = () => {
+    const { email, password } = this.state
     firebase
       .auth()
-      .createUserWithEmailAndPassword(this.state.email, this.state.password)
+      .signInWithEmailAndPassword(email, password)
       .then(() => this.props.navigation.navigate('Main'))
       .catch(error => this.setState({ errorMessage: error.message }))
   }
+
 
   render() {
     const Divider = (props) => {
@@ -44,9 +47,9 @@ export default class Register extends Component {
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.container}>
           <View style={styles.up}>
-            <Ionicons name="ios-people" size={80} color={'#e3e3e3'}></Ionicons>
+            <Ionicons name="ios-person" size={80} color={'#e3e3e3'}></Ionicons>
             <Text style={styles.title}>
-              Create account
+              Login
             </Text>
           </View>
 
@@ -57,8 +60,7 @@ export default class Register extends Component {
                 textContentType='emailAddress'
                 keyboardType='email-address'
                 placeholder="Enter your email"
-                onChangeText={email => this.setState({ email })}
-                value={this.state.email}
+                onChangeText={(email) => this.setState({email})}
               >
               </TextInput>
             </View>
@@ -68,24 +70,34 @@ export default class Register extends Component {
                 style={styles.textInput}
                 placeholder="Enter your password"
                 secureTextEntry={true} // abc -> ***
-                onChangeText={password => this.setState({ password })}
-                value={this.state.password}
+                onChangeText={(password) => this.setState({password})}
               >
               </TextInput>
             </View>
 
-            <TouchableOpacity style={styles.loginButton} 
-              onPress={this.handleSignUp}>
-              <Text style={styles.titleButtonLogin}>SIGNUP</Text>
-            </TouchableOpacity>
+            <View style={{flexDirection: 'row', marginTop: 20}}>
+              <TouchableOpacity style={styles.loginButton} 
+                // onPress={this.handleLogin}
+                onPress={() => this.props.navigation.navigate("DrawerNavigator")}
+                >
+                <Text style={styles.titleButtonLogin}>LOGIN</Text>
+              </TouchableOpacity>
 
-            
+              <TouchableOpacity style={styles.signupButton} 
+                onPress={() => this.props.navigation.navigate("Register")}>
+                <Text style={styles.titleButtonLogin}>SIGNUP</Text>
+              </TouchableOpacity>
+            </View>
+
             <Divider style={styles.divider}></Divider>
 
-            <TouchableOpacity style={styles.backButton} 
-                onPress={() => this.props.navigation.goBack()}>
-              <Text style={styles.titleButtonLogin}>Do you already have an account?</Text>
-            </TouchableOpacity>
+            <FontAwesome.Button
+              style={styles.loginButtonWithFB}
+              name="facebook"
+              backgroundColor={COLOR_FACEBOOK}
+            >
+              <Text style={styles.titleButtonLoginWithFB}>Login with Facebook</Text>
+            </FontAwesome.Button>
           </View>
         </View>
       </TouchableWithoutFeedback>
@@ -131,22 +143,22 @@ const styles = StyleSheet.create({
     color: '#00000090'
   },
   loginButton: {
-    width: 300,
+    width: 140,
     height: 40,
     borderRadius: 6,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'green',
-    marginTop: 20,
+    marginRight: 10,
   },
-  backButton: {
-    width: 300,
+  signupButton: {
+    width: 140,
     height: 40,
     borderRadius: 6,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'orange',
-    marginTop: 20,
+    backgroundColor: 'blue',
+    marginLeft: 10,
   },
   titleButtonLogin: {
     fontSize: 16,
