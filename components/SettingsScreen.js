@@ -3,14 +3,7 @@ import {Platform, StyleSheet, Text, View, TextInput, Button} from 'react-native'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
-export default class ListDataSecond extends React.Component {
-  static navigationOptions = {
-    tabBarLabel: 'Settings',
-    tabBarIcon: ({tintColor}) => (
-      <Ionicons name="ios-settings" size={20} color={'blue'}></Ionicons>
-    )
-  }
-
+export default class SettingsScreen extends React.Component {
   render() {
     return (
       <View
@@ -19,8 +12,9 @@ export default class ListDataSecond extends React.Component {
           justifyContent: 'center',
           alignItems: 'center'
         }}>
-          <Text style={{fontSize: 30}}>
-            This is Tab Settings
+          <Text style={{fontSize: 20}}> 
+          {/* onPress={this.props.navigation.openDrawer()} */}
+            Settings Screen...
           </Text>
       </View>
     )

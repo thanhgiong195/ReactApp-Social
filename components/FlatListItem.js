@@ -3,10 +3,31 @@ import {Image, Text, View, Alert, TouchableWithoutFeedback } from 'react-native'
 import Swipeout from 'react-native-swipeout'
 
 export default class FlatListItem extends Component {
+
+  async deleteMovie(params) {
+    try {
+      let response = await fetch("http://5c0644c8c16e120013947983.mockapi.io/listMovies/", {
+        method: 'DELETE',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(params)
+      });
+      console.log('runhere');
+      let responseJson = await response.json();
+      return responseJson.result;
+
+    } catch (error) {
+      console.error('Error');
+    }
+  }
+
   render() {
-    
     const swipeSettings = {
       autoClose: true,
+      rowId: this.props.item.id,
+      sectionId: 1,
 
       onClose: (secId, rowId, direction) => {
         if(this.state.activeRowKey != null) {
@@ -20,21 +41,19 @@ export default class FlatListItem extends Component {
       right: [{
         onPress: () => {
           Alert.alert (
-            'Alert',
+            'Alert' + this.props.item.id ,
             'Are you sure you want to delete it?',
             [
               {text: 'No', onPress: () => console.log('Cancel pressed'), style: 'cancel'},
               {text: 'Yes', onPress: () => {
-                  //action here
+                // this.deleteMovie(this.props.item.id)
               }},
             ],
             {cancelable: true}
           );
         },
         text: 'Delete', type: 'delete'
-      }],
-      rowId: this.props.item.id,
-      sectionId: 1
+      }]
     };
 
     return (

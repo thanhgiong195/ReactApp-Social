@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import ListData from './ListData'
-import DetailsItem from './DetailsItem'
+import ListData from '../ListData'
+import DetailsItem from '../DetailsItem'
 import {createStackNavigator, createAppContainer } from 'react-navigation'
 
 class Home extends Component {

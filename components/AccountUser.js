@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
-import Login from './Login'
-import Register from './Register'
+import Login from './account/Login'
+import Register from './account/Register'
 import {createStackNavigator, createAppContainer } from 'react-navigation'
 
 class AccountUser extends Component {

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {StyleSheet, Dimensions, Platform, TouchableOpacity, Text, View, TextInput} from 'react-native';
+import {StyleSheet, Dimensions, Platform, Text, View, TextInput} from 'react-native';
 import Modal from 'react-native-modal';
 import Button from 'react-native-button';
 
@@ -92,7 +92,7 @@ export default class AddModal extends Component {
               this.insertNewMovie(newMovie);
               this.setState({ modalVisible: false })
 
-              this.props.parentFlatlist._onRefresh; //auto reload
+              // this.props.parentFlatlist._renderItem(item); //auto reload
             }}
             style={{padding: 30}}>
             Save
