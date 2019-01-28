@@ -101,7 +101,6 @@ export default class ListData extends Component {
           }
         >
         </FlatList>
-        {/* <Text onPress={() => this.props.navigation.openDrawer}>hahaha</Text> */}
        <AddModal ref={'addModal'} parentFlatlist={this}></AddModal>
       </View>
     );
