@@ -6,7 +6,7 @@ export default class Notification extends React.Component {
   static navigationOptions = {
     tabBarLabel: 'Notification',
     tabBarIcon: ({tintColor}) => (
-      <Ionicons name="ios-notifications" size={20} color={'blue'}></Ionicons>
+      <Ionicons name="ios-notifications" size={20} color={tintColor}></Ionicons>
     )
   }
 

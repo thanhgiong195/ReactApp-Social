@@ -15,7 +15,7 @@ export default class Splash extends Component {
     Animated.sequence([
       Animated.timing(this.state.logoOpacity, {
         toValue: 1,
-        duration: 1500,
+        duration: 1000,
       }),
       Animated.timing(this.state.titleMarginTop, {
         toValue: 10,

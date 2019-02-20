@@ -5,9 +5,9 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 export default class Settings extends React.Component {
   static navigationOptions = {
-    tabBarLabel: 'Settings',
+    tabBarLabel: 'Profile',
     tabBarIcon: ({tintColor}) => (
-      <Ionicons name="ios-settings" size={20} color={'blue'}></Ionicons>
+      <Ionicons name="ios-person" size={20} color={tintColor}></Ionicons>
     )
   }
 
@@ -20,7 +20,7 @@ export default class Settings extends React.Component {
           alignItems: 'center'
         }}>
           <Text style={{fontSize: 30}}>
-            This is Tab Settings
+            This is Tab Profile
           </Text>
       </View>
     )

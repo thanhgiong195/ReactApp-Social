@@ -6,7 +6,7 @@ export default class Chat extends React.Component {
   static navigationOptions = {
     tabBarLabel: 'Chat',
     tabBarIcon: ({tintColor}) => (
-      <Ionicons name="ios-chatbubbles" size={20} color={'blue'}></Ionicons>
+      <Ionicons name="ios-chatbubbles" size={20} color={tintColor}></Ionicons>
     )
   }
 

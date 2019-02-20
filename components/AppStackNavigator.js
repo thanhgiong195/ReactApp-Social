@@ -1,7 +1,7 @@
 import Splash from './Splash'
 import AccountUser from './AccountUser'
 import Loading from './Loading'
-import TabNavigator from './TabNavigator'
+import Mainscreen from './Mainscreen'
 import DrawerNavigator from './DrawerNavigator'
 
 import {createStackNavigator, createAppContainer } from 'react-navigation'
@@ -11,7 +11,7 @@ const AppNavigator = createStackNavigator ({
   Loading: Loading,
   AccountUser: AccountUser,
   DrawerNavigator: DrawerNavigator,
-  TabNavigator: TabNavigator,
+  Mainscreen: Mainscreen,
 }, {
   initalRouteName: 'Splash',
   header: null,
