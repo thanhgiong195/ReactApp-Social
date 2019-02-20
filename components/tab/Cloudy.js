@@ -6,7 +6,7 @@ export default class Cloudy extends React.Component {
   static navigationOptions = {
     tabBarLabel: 'Cloudy',
     tabBarIcon: ({tintColor}) => (
-      <Ionicons name="ios-cloudy" size={20} color={'blue'}></Ionicons>
+      <Ionicons name="ios-cloudy" size={20} color={tintColor}></Ionicons>
     )
   }
 

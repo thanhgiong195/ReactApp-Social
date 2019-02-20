@@ -7,13 +7,6 @@ import FlatListItem from './FlatListItem'
 
 export default class ListData extends Component {
 
-  static navigationOptions = {
-    tabBarLabel: 'Home',
-    tabBarIcon: ({tintColor}) => (
-      <Ionicons name="ios-chatbubbles" size={20} color={'blue'}></Ionicons>
-    )
-  }
-
   constructor(props) {
     super(props);
     this.state = {
