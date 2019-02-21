@@ -2,7 +2,7 @@ import React from 'react';
 import { createBottomTabNavigator, createAppContainer } from 'react-navigation'
 
 import Home from './tab/Home'
-import Settings from './tab/Settings'
+import Profile from './tab/Profile'
 import Chat from './tab/Chat'
 import Cloudy from './tab/Cloudy'
 import Notification from './tab/Notification'
@@ -12,7 +12,7 @@ const AppTabNavigator = createBottomTabNavigator({
   Tab2: Chat,
   Tab3: Cloudy,
   Tab4: Notification,
-  Tab5: Settings,
+  Tab5: Profile,
 }, {
   gesturesEnabled: true, //scoll tab
   swipeEnabled: true,
