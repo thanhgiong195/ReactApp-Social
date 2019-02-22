@@ -1,18 +1,24 @@
 import React from 'react';
 import { createBottomTabNavigator, createAppContainer } from 'react-navigation'
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import Home from './tab/Home'
 import Profile from './tab/Profile'
 import Chat from './tab/Chat'
 import Cloudy from './tab/Cloudy'
-import Notification from './tab/Notification'
 
 const AppTabNavigator = createBottomTabNavigator({
-  Tab1: Home,
-  Tab2: Chat,
-  Tab3: Cloudy,
-  Tab4: Notification,
-  Tab5: Profile,
+  Home: {
+    screen: Home,
+    navigationOptions: {
+      tabBarIcon: ({tintColor}) => (
+        <Ionicons name="ios-home" size={20} color={tintColor}></Ionicons>
+      )
+    }
+  },
+  Chat: Chat,
+  Cloudy: Cloudy,
+  Profile: Profile,
 }, {
   gesturesEnabled: true, //scoll tab
   swipeEnabled: true,

@@ -73,7 +73,6 @@ export default class ListData extends Component {
             borderBottomWidth: 1
           }}>
           <TouchableOpacity style={{marginRight: 20}} onPress={this._onPressAdd}>
-          {/* <TouchableOpacity style={{marginRight: 20}} onPress={this.props.navigation.openDrawer()}> */}
             <Ionicons 
               name="ios-add-circle" 
               size={30} 
