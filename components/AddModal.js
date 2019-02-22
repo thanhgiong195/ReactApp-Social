@@ -92,7 +92,7 @@ export default class AddModal extends Component {
               this.insertNewMovie(newMovie);
               this.setState({ modalVisible: false })
 
-              // this.props.parentFlatlist._renderItem(item); //auto reload
+              this.props.parentFlatlist._onRefresh(); //auto reload
             }}
             style={{padding: 30}}>
             Save

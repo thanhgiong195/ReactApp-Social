@@ -21,9 +21,8 @@ var images = [
 
 var {width,height} = Dimensions.get('window')
 
-export default class Settings extends React.Component {
+export default class Settings extends Component {
   static navigationOptions = {
-    tabBarLabel: 'Profile',
     tabBarIcon: ({tintColor}) => (
       <Ionicons name="ios-person" size={20} color={tintColor}></Ionicons>
     )
@@ -79,9 +78,9 @@ export default class Settings extends React.Component {
   render() {
     return (
       <Container style={{flex:1, backgroundColor: 'while'}}>
-          <Header>
+          <Header style={{height:45, justifyContent:'space-around'}}>
              <Left><Ionicons name="ios-camera" size={25} color={'white'} style={{paddingLeft: 10}}></Ionicons></Left> 
-             <Body center><Text style={{color: '#fff'}}>BebeGalaxy</Text></Body>
+             <Body><Text style={{color: '#fff'}}>BebeGalaxy</Text></Body>
              <Right><Ionicons name="ios-send" size={25} color={'white'} style={{paddingRight: 10}}></Ionicons></Right>
           </Header>
           <Content>
