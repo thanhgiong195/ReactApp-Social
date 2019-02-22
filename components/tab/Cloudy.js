@@ -16,7 +16,8 @@ export default class Cloudy extends Component {
         style={{
           flex: 1,
           justifyContent: 'center',
-          alignItems: 'center'
+          alignItems: 'center',
+          backgroundColor: 'pink'
         }}>
           <Text style={{fontSize: 30}}>
             This is Tab Cloudy

@@ -45,7 +45,7 @@ export default class ListData extends Component {
   _keyExtractor = (item, index) => item.id;
 
   _renderItem = ({item}) => (
-    <FlatListItem item={item} navigation={this.props.navigation} />
+    <FlatListItem item={item} navigation={this.props.navigation} parentFlat={this} />
   )
 
   _onPressAdd = () => {
@@ -64,17 +64,17 @@ export default class ListData extends Component {
       <View style={{flex: 1}}>
         <View 
           style={{
-            height: 50,
+            height: 45,
             flexDirection: 'row',
-            backgroundColor:'mediumseagreen',
             justifyContent:'flex-end',
             alignItems: 'center',
-            borderBottomColor: 'rgba(255,255,255,0.4)',
-            borderBottomWidth: 1
+            borderBottomColor: 'gray',
+            borderBottomWidth: 0.5,
+            backgroundColor: '#3f51b5'
           }}>
           <TouchableOpacity style={{marginRight: 20}} onPress={this._onPressAdd}>
             <Ionicons 
-              name="ios-add-circle" 
+              name="ios-add-circle-outline" 
               size={30} 
               color={'white'}
             ></Ionicons>
