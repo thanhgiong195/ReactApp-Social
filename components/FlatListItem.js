@@ -4,22 +4,21 @@ import Swipeout from 'react-native-swipeout'
 
 export default class FlatListItem extends Component {
 
-  async deleteMovie(params) {
+  async deleteMovie(movieId) {
     try {
-      let response = await fetch("http://5c0644c8c16e120013947983.mockapi.io/listMovies/", {
+      let response = await fetch(`http://5c0644c8c16e120013947983.mockapi.io/listMovies/${movieId.toString()}`, {
         method: 'DELETE',
         headers: {
-          'Accept': 'application/json',
+          Accept: 'application/json',
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(params)
+        body: JSON.stringify({})
       });
-      console.log('runhere');
       let responseJson = await response.json();
       return responseJson.result;
 
     } catch (error) {
-      console.error('Error');
+      console.error('Errorrrrr');
     }
   }
 
@@ -41,12 +40,13 @@ export default class FlatListItem extends Component {
       right: [{
         onPress: () => {
           Alert.alert (
-            'Alert' + this.props.item.id ,
+            'Alert ' + this.props.item.id ,
             'Are you sure you want to delete it?',
             [
               {text: 'No', onPress: () => console.log('Cancel pressed'), style: 'cancel'},
               {text: 'Yes', onPress: () => {
-                // this.deleteMovie(this.props.item.id)
+                this.deleteMovie(this.props.item.id)
+                this.props.parentFlat._onRefresh(); //auto reload
               }},
             ],
             {cancelable: true}
@@ -70,7 +70,7 @@ export default class FlatListItem extends Component {
               flexDirection:'row',
               marginBottom: 1,
               padding: 9, 
-              backgroundColor:'mediumseagreen'
+              backgroundColor:'white'
             }}
           >
             <Image 
@@ -78,8 +78,8 @@ export default class FlatListItem extends Component {
               source={{uri: this.props.item.image}} 
             />
             <View style={{flex: 1,flexDirection:'column', marginLeft: 10}}>
-              <Text style={{color: 'white',fontWeight: 'bold',fontSize: 16}}>{this.props.item.title}</Text>
-              <Text style={{color: 'white'}}>{this.props.item.releaseYear}</Text>
+              <Text style={{fontWeight: 'bold',fontSize: 16}}>{this.props.item.title}</Text>
+              <Text>{this.props.item.releaseYear}</Text>
             </View>
           </View>
         </TouchableWithoutFeedback>

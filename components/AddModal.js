@@ -12,7 +12,7 @@ export default class AddModal extends Component {
     this.state = {
       modalVisible: false,
       newMovieName: '',
-      newMovieImage: '' || 'https://s3.amazonaws.com/uifaces/faces/twitter/dshster/128.jpg',
+      newMovieImage: '' || 'https://s3.amazonaws.com/uifaces/faces/twitter/lmjabreu/128.jpg',
       newMovieYear: '' || '2018-02-14T05:30:29.486Z'
     }
   }
@@ -26,7 +26,7 @@ export default class AddModal extends Component {
       let response = await fetch("http://5c0644c8c16e120013947983.mockapi.io/listMovies", {
         method: 'POST',
         headers: {
-          'Accept': 'application/json',
+          Accept: 'application/json',
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(params)
@@ -92,7 +92,7 @@ export default class AddModal extends Component {
               this.insertNewMovie(newMovie);
               this.setState({ modalVisible: false })
 
-              this.props.parentFlatlist._onRefresh(); //auto reload
+              this.props.parentFlatlist._refreshDataFromServer(); //auto reload
             }}
             style={{padding: 30}}>
             Save

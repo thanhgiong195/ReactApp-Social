@@ -24,7 +24,7 @@ const AppTabNavigator = createBottomTabNavigator({
   swipeEnabled: true,
   animationEnabled: true,
   tabBarOptions: {
-    activeTintColor: 'blue', //active color
+    activeTintColor: 'orange', //active color
     activeBackgroundColor: '#fff', //active background color
     showLabel: true,
     labelStyle: {
