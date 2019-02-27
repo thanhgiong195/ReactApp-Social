@@ -3,7 +3,9 @@ import {Text,TouchableOpacity, StyleSheet, ActivityIndicator, View, FlatList, Re
 import {COLOR_PINK, COLOR_PINK_LIGHT, COLOR_FACEBOOK, COLOR_PINK_MEDIUM} from './myColor';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AddModal from './AddModal'
+import EditModal from './EditModal'
 import FlatListItem from './FlatListItem'
+import {getDataFromServer} from './networking/Server';
 
 export default class ListData extends Component {
 
@@ -17,28 +19,19 @@ export default class ListData extends Component {
     }
   }
 
-  componentDidMount() {
-    this._refreshDataFromServer();
-  }
-
-  //get data
-  async _refreshDataFromServer() {
+  _refreshDataFromServer = () => {
     this.setState({ refreshing: true });
-    fetch("http://5c0644c8c16e120013947983.mockapi.io/listMovies")
-    .then((res) => res.json())
-    .then((resJson) => {
+
+    getDataFromServer().then((movie) => {
       this.setState({
         isLoading: false,
         refreshing: false,
-        dataMovies: resJson
+        dataMovies: movie
       });
     })
-    .catch((error) => {
-      console.error(error);
-    });
   }
 
-  _onRefresh = () => {
+  componentDidMount() {
     this._refreshDataFromServer();
   }
 
@@ -50,6 +43,10 @@ export default class ListData extends Component {
 
   _onPressAdd = () => {
     this.refs.addModal.showAddModal();
+  }
+
+  _onPressEdit = () => {
+    this.refs.editModal.showEditModal();
   }
 
   render() {
@@ -88,12 +85,13 @@ export default class ListData extends Component {
           refreshControl={
             <RefreshControl 
               refreshing={this.state.refreshing}
-              onRefresh={this._onRefresh}
+              onRefresh={this._refreshDataFromServer}
             />
           }
         >
         </FlatList>
        <AddModal ref={'addModal'} parentFlatlist={this}></AddModal>
+       <EditModal ref={'editModal'} parentFlatlist={this}></EditModal>
       </View>
     );
   }

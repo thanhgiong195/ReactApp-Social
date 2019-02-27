@@ -1,26 +1,9 @@
 import React, { Component } from 'react'
 import {Image, Text, View, Alert, TouchableWithoutFeedback } from 'react-native'
 import Swipeout from 'react-native-swipeout'
+import {deleteItem} from './networking/Server'
 
 export default class FlatListItem extends Component {
-
-  async deleteMovie(movieId) {
-    try {
-      let response = await fetch(`http://5c0644c8c16e120013947983.mockapi.io/listMovies/${movieId.toString()}`, {
-        method: 'DELETE',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({})
-      });
-      let responseJson = await response.json();
-      return responseJson.result;
-
-    } catch (error) {
-      console.error('Errorrrrr');
-    }
-  }
 
   render() {
     const swipeSettings = {
@@ -33,27 +16,38 @@ export default class FlatListItem extends Component {
           this.setState({ activeRowKey: null });
         }
       },
-
       onOpen: (secId, rowId, direction) => {
         this.setState({ activeRowKey: this.props.item.id });
       },
-      right: [{
-        onPress: () => {
-          Alert.alert (
-            'Alert ' + this.props.item.id ,
-            'Are you sure you want to delete it?',
-            [
-              {text: 'No', onPress: () => console.log('Cancel pressed'), style: 'cancel'},
-              {text: 'Yes', onPress: () => {
-                this.deleteMovie(this.props.item.id)
-                this.props.parentFlat._onRefresh(); //auto reload
-              }},
-            ],
-            {cancelable: true}
-          );
+
+      right: [
+        //edit
+        {
+          onPress: () => {
+            // Alert.alert (`${this.props.item.title}.${this.props.item.id}`);
+            this.props.parentFlat.refs.editModal.showEditModal(this.props.item);
+          },
+          text: 'Edit', type: 'primary'
         },
-        text: 'Delete', type: 'delete'
-      }]
+        //delete
+        {
+          onPress: () => {
+            Alert.alert (
+              'Alert ' + this.props.item.id ,
+              'Are you sure you want to delete it?',
+              [
+                {text: 'No', onPress: () => console.log('Cancel pressed'), style: 'cancel'},
+                {text: 'Yes', onPress: () => {
+                  deleteItem(this.props.item.id)
+                  this.props.parentFlat._refreshDataFromServer() //auto reload
+                }},
+              ],
+              {cancelable: true}
+            );
+          },
+          text: 'Delete', type: 'delete'
+        }
+      ]
     };
 
     return (

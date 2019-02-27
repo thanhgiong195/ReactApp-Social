@@ -2,24 +2,31 @@ import React, { Component } from 'react';
 import {StyleSheet, Dimensions, Platform, Text, View, TextInput} from 'react-native';
 import Modal from 'react-native-modal';
 import Button from 'react-native-button';
-import {insertNewFromServer} from './networking/Server';
+import {updateItem} from './networking/Server';
 
 var screen = Dimensions.get('window');
 
-export default class AddModal extends Component {
+export default class EditModal extends Component {
 
   constructor (props) {
     super(props);
     this.state = {
       modalVisible: false,
-      newMovieName: '',
-      newMovieImage: '' || 'https://s3.amazonaws.com/uifaces/faces/twitter/lmjabreu/128.jpg',
-      newMovieYear: '' || '2018-02-14T05:30:29.486Z'
+      id:'',
+      editMovieName: '',
+      editMovieImage: '',
+      editMovieYear: ''
     }
   }
 
-  showAddModal = () => {
-    this.setState({ modalVisible: !this.state.modalVisible });
+  showEditModal = (editingMovie) => {
+    this.setState({ 
+      modalVisible: true,
+      id: editingMovie.id,
+      editMovieName: editingMovie.title,
+      editMovieImage: editingMovie.image,
+      editMovieYear: editingMovie.releaseYear,
+    });
   }
 
   render() {
@@ -38,42 +45,43 @@ export default class AddModal extends Component {
           padding: 30,
           borderRadius: Platform.OS === 'ios' ? 30 : 0
         }}>
-        <Text style={{fontSize: 18,fontWeight:'bold',padding:10}}>Add a new movie</Text>
+        <Text style={{fontSize: 18,fontWeight:'bold',padding:10}}>Edit a movie</Text>
         <TextInput
           style={styles.textInput}
           placeholder="Enter title movie"
-          onChangeText={(text) => this.setState({ newMovieName: text })}
-          value={this.state.newMovieName}
+          onChangeText={(text) => this.setState({ editMovieName: text })}
+          value={this.state.editMovieName}
         >
         </TextInput>
         <TextInput
           style={styles.textInput}
           placeholder="Enter year"
-          onChangeText={(text) => this.setState({ newMovieYear: text })}
-          value={this.state.newMovieYear}
+          onChangeText={(text) => this.setState({ editMovieYear: text })}
+          value={this.state.editMovieYear}
         >
         </TextInput>
         <TextInput
           style={styles.textInput}
           placeholder="Enter url image"
-          onChangeText={(text) => this.setState({ newMovieImage: text })}
-          value={this.state.newMovieImage}
+          onChangeText={(text) => this.setState({ editMovieImage: text })}
+          value={this.state.editMovieImage}
         >
         </TextInput>
         <View style={{flexDirection:'row'}}>
           <Button
             onPress={() =>  {
-              if (this.state.newMovieName.length == 0 || this.state.newMovieImage.length == 0 || this.state.newMovieYear.length == 0 ) {
+              if (this.state.editMovieName.length == 0 || this.state.editMovieImage.length == 0 || this.state.editMovieYear.length == 0 ) {
                 alert("You must enter movie's...")
                 return;
               }
-              const newMovie = {
-                title: this.state.newMovieName,
-                image: this.state.newMovieImage,
-                releaseYear: this.state.newMovieYear
+              
+              const editMovie = {
+                title: this.state.editMovieName,
+                image: this.state.editMovieImage,
+                releaseYear: this.state.editMovieYear
               }
 
-              insertNewFromServer(newMovie);
+              updateItem(editMovie,this.state.id);
               this.setState({ modalVisible: false })
               this.props.parentFlatlist._refreshDataFromServer(); //auto reload
             }}
