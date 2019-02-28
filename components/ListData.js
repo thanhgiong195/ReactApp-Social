@@ -57,6 +57,8 @@ export default class ListData extends Component {
         </View>
       )
     }
+
+    
     return (
       <View style={{flex: 1}}>
         <View 
