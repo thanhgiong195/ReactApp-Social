@@ -16,10 +16,9 @@ export default class CardComponent extends Component {
               </Left>
           </CardItem>
           <CardItem>
-            <Image source={require('../images/img(1).jpg')}
+            <Image source={this.props.imageSource}
               style={{height: 200, width: null, flex: 1}}
             />
-
           </CardItem>
       </Card>
     )

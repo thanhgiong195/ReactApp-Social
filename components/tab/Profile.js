@@ -64,14 +64,13 @@ export default class Settings extends Component {
       )
     }
     else if (this.state.activeIndex == 1){
-      return (
-        <View>
-          <CardComponent imageSource="1" likes="100"/>
-          <CardComponent imageSource="2" likes="201"/>
-          <CardComponent imageSource="3" likes="302"/>
-          <CardComponent imageSource="4" likes="403"/>
-        </View>
-      )
+      return images.map((image,index) => {
+        return (
+          <View key={index}>
+            <CardComponent imageSource={image} />
+          </View>
+        )
+      })
     }
   }
 

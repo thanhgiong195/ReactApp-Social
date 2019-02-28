@@ -24,7 +24,6 @@ export default class FlatListItem extends Component {
         //edit
         {
           onPress: () => {
-            // Alert.alert (`${this.props.item.title}.${this.props.item.id}`);
             this.props.parentFlat.refs.editModal.showEditModal(this.props.item);
           },
           text: 'Edit', type: 'primary'
@@ -39,7 +38,7 @@ export default class FlatListItem extends Component {
                 {text: 'No', onPress: () => console.log('Cancel pressed'), style: 'cancel'},
                 {text: 'Yes', onPress: () => {
                   deleteItem(this.props.item.id)
-                  this.props.parentFlat._refreshDataFromServer() //auto reload
+                  this.props.parentFlat._refreshDataFromServer()
                 }},
               ],
               {cancelable: true}
@@ -54,7 +53,7 @@ export default class FlatListItem extends Component {
       <Swipeout {...swipeSettings}>
         <TouchableWithoutFeedback 
           onPress={() => this.props.navigation.navigate('DetailsItem', {
-            title: this.props.item.title,
+            item: this.props.item.title,
             img_url: this.props.item.image,
             releaseYear: this.props.item.releaseYear
           })}>
