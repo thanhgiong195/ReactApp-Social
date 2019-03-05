@@ -98,6 +98,7 @@ export default class Login extends Component {
             </View>
 
             <Divider style={styles.divider}></Divider>
+            
               <FontAwesome.Button
                 style={styles.loginButtonWithFB}
                 name="facebook"
