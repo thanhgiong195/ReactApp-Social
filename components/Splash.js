@@ -1,17 +1,33 @@
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Image, Text, View, TextInput, Animated, Dimensions} from 'react-native';
 import {COLOR_PINK, COLOR_PINK_LIGHT, COLOR_FACEBOOK, COLOR_PINK_MEDIUM} from './myColor';
+import { AccessToken }  from 'react-native-fbsdk'
 
 var {height, width} = Dimensions.get('window')
 
 export default class Splash extends Component {
 
-  state = {
-    logoOpacity: new Animated.Value(0),
-    titleMarginTop: new Animated.Value(height / 2),
+  constructor(props) {
+    super(props)
+    this.state = {
+      logoOpacity: new Animated.Value(0),
+      titleMarginTop: new Animated.Value(height / 2),
+      accessToken: null
+    }
   }
 
-  async componentDidMount () {
+  componentDidMount () {
+
+    AccessToken.getCurrentAccessToken()
+    .then((data) => {
+      this.setState({
+        accessToken: data.accessToken
+      })
+    })
+    .catch(error => {
+      console.log(error)
+    })
+
     Animated.sequence([
       Animated.timing(this.state.logoOpacity, {
         toValue: 1,
@@ -22,7 +38,11 @@ export default class Splash extends Component {
         duration: 1000,
       }),
     ]).start(() => {
-      this.props.navigation.navigate("AccountUser")
+      if (this.state.accessToken) {
+        this.props.navigation.navigate("Mainscreen")
+      } else {
+        this.props.navigation.navigate("AccountUser")
+      }
     })
   }
 

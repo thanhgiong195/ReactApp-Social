@@ -12,27 +12,44 @@ import {
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import {COLOR_PINK, COLOR_PINK_LIGHT, COLOR_FACEBOOK, COLOR_PINK_MEDIUM} from '../myColor';
-
+import { COLOR_FACEBOOK, COLOR_PINK_MEDIUM } from '../myColor';
+import { LoginManager, AccessToken } from 'react-native-fbsdk'
 export default class Login extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
       email: '',
-      password: ''
+      password: '',
+      accessToken: null
     }
   }
 
-  handleLogin = () => {
-    const { email, password } = this.state
-    firebase
-      .auth()
-      .signInWithEmailAndPassword(email, password)
-      .then(() => this.props.navigation.navigate('Main'))
-      .catch(error => this.setState({ errorMessage: error.message }))
+  loginFacebook = () => {
+    LoginManager
+      .logInWithReadPermissions(['public_profile', 'email'])
+      .then((result) => {
+        if (result.isCancelled) {
+          alert('Login was cancelled');
+        } 
+        console.log(`Login success with: ${result.grantedPermissions.toString()}`);
+        return AccessToken.getCurrentAccessToken();
+      })
+      .then((data) => {
+        this.setState({
+          accessToken: data.accessToken
+        })
+        if (this.state.accessToken) {
+          this.props.navigation.navigate("Mainscreen")
+        }
+      })
+      .then((currentUser) => {
+        console.log(`FB: ${JSON.stringify(currentUser)}`);
+      })
+      .then((error) => {
+        console.log('Login failed with error: ' + error);
+      });
   }
-
 
   render() {
     const Divider = (props) => {
@@ -78,7 +95,7 @@ export default class Login extends Component {
             <View style={{flexDirection: 'row', marginTop: 20}}>
               <TouchableOpacity style={styles.loginButton} 
                 // onPress={this.handleLogin}
-                onPress={() => this.props.navigation.navigate("DrawerNavigator")}
+                onPress={() => this.props.navigation.navigate("Mainscreen")}
                 >
                 <Text style={styles.titleButtonLogin}>LOGIN</Text>
               </TouchableOpacity>
@@ -91,13 +108,14 @@ export default class Login extends Component {
 
             <Divider style={styles.divider}></Divider>
 
-            <FontAwesome.Button
-              style={styles.loginButtonWithFB}
-              name="facebook"
-              backgroundColor={COLOR_FACEBOOK}
-            >
-              <Text style={styles.titleButtonLoginWithFB}>Login with Facebook</Text>
-            </FontAwesome.Button>
+              <FontAwesome.Button
+                style={styles.loginButtonWithFB}
+                name="facebook"
+                backgroundColor={COLOR_FACEBOOK}
+                onPress={this.loginFacebook}
+              >
+                <Text style={styles.titleButtonLoginWithFB}>Login with Facebook</Text>
+              </FontAwesome.Button>
           </View>
         </View>
       </TouchableWithoutFeedback>
