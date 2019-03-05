@@ -12,15 +12,16 @@ import {
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import {COLOR_PINK, COLOR_PINK_LIGHT, COLOR_FACEBOOK, COLOR_PINK_MEDIUM} from '../myColor';
-import { LoginManager, AccessToken  } from 'react-native-fbsdk'
+import { COLOR_FACEBOOK, COLOR_PINK_MEDIUM } from '../myColor';
+import { LoginManager, AccessToken } from 'react-native-fbsdk'
 export default class Login extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
       email: '',
-      password: ''
+      password: '',
+      accessToken: null
     }
   }
 
@@ -33,6 +34,14 @@ export default class Login extends Component {
         } 
         console.log(`Login success with: ${result.grantedPermissions.toString()}`);
         return AccessToken.getCurrentAccessToken();
+      })
+      .then((data) => {
+        this.setState({
+          accessToken: data.accessToken
+        })
+        if (this.state.accessToken) {
+          this.props.navigation.navigate("Mainscreen")
+        }
       })
       .then((currentUser) => {
         console.log(`FB: ${JSON.stringify(currentUser)}`);
@@ -98,7 +107,7 @@ export default class Login extends Component {
             </View>
 
             <Divider style={styles.divider}></Divider>
-            
+
               <FontAwesome.Button
                 style={styles.loginButtonWithFB}
                 name="facebook"
