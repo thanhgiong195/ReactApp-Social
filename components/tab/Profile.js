@@ -1,8 +1,10 @@
 import React, {Component} from 'react';
 import {Text, View, Image, Dimensions} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { Container, Content, Thumbnail, Header, Left, Right, Body, Icon, Button} from 'native-base'
+import { Container, Content, TouchableOpacity, Header, Left, Right, Body, Icon, Button} from 'native-base'
 import CardComponent from '../CardComponent'
+import { AccessToken, LoginButton  } from 'react-native-fbsdk'
+import ImagePicker from 'react-native-image-picker';
 
 var images = [
   require('../../images/img(1).jpg'),
@@ -21,6 +23,15 @@ var images = [
 
 var {width,height} = Dimensions.get('window')
 
+const options = {
+  title: 'Select Image',
+  allowsEditing: false,
+  storageOptions: {
+    skipBackup: true,
+    path: '../../images',
+  }
+};
+
 export default class Settings extends Component {
   static navigationOptions = {
     tabBarIcon: ({tintColor}) => (
@@ -31,7 +42,8 @@ export default class Settings extends Component {
   constructor(props){
     super(props)
     this.state = {
-      activeIndex: 0
+      activeIndex: 0,
+      imgSource: null
     }
   }
 
@@ -39,6 +51,26 @@ export default class Settings extends Component {
     this.setState({
       activeIndex: index
     })
+  }
+
+  chooseImage = () => {
+    ImagePicker.showImagePicker(options, (response) => {
+      console.log('Response = ', response);
+
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      } else if (response.customButton) {
+        console.log('User tapped custom button: ', response.customButton);
+      } else {
+        const source = { uri: response.uri };
+        images.push(source);
+        this.setState({
+          imgSource: source,
+        });
+      }
+    });
   }
 
   renderSectionOne = () => {
@@ -78,7 +110,8 @@ export default class Settings extends Component {
     return (
       <Container style={{flex:1, backgroundColor: 'while'}}>
           <Header style={{height:45, justifyContent:'space-around'}}>
-             <Left><Ionicons name="ios-camera" size={25} color={'white'} style={{paddingLeft: 10}}></Ionicons></Left> 
+              <Button onPress={()=> this.chooseImage()}><Ionicons name="ios-camera" size={25} color={'white'} style={{paddingLeft: 10}}
+                    ></Ionicons></Button>
              <Body><Text style={{color: '#fff'}}>BebeGalaxy</Text></Body>
              <Right><Ionicons name="ios-send" size={25} color={'white'} style={{paddingRight: 10}}></Ionicons></Right>
           </Header>
@@ -110,6 +143,25 @@ export default class Settings extends Component {
                     <Button bordered dark style={{flex:1, marginRight:10, marginLeft: 5, justifyContent: 'center', height:30}}>
                       <Icon name="settings"></Icon>
                     </Button>
+                  </View>
+                  <View>
+                    <LoginButton
+                      onLoginFinished={
+                        (error, result) => {
+                          if (error) {
+                            console.log("login has error: " + result.error);
+                          } else if (result.isCancelled) {
+                            console.log("login is cancelled.");
+                          } else {
+                            AccessToken.getCurrentAccessToken().then(
+                              (data) => {
+                                console.log(data.accessToken.toString())
+                              }
+                            )
+                          }
+                        }
+                      }
+                      onLogoutFinished={() => console.log("logout.")}/>
                   </View>
                 </View>
               </View>
