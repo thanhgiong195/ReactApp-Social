@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import {StyleSheet, Dimensions, Platform, Text, View, TextInput} from 'react-native';
+import {StyleSheet, Platform, Text, View, TextInput} from 'react-native';
 import Modal from 'react-native-modal';
 import Button from 'react-native-button';
 import {insertNewFromServer} from './networking/Server';
-
-var screen = Dimensions.get('window');
+import DatePicker from 'react-native-datepicker'
 
 export default class AddModal extends Component {
 
@@ -14,7 +13,7 @@ export default class AddModal extends Component {
       modalVisible: false,
       newMovieName: '',
       newMovieImage: '' || 'https://s3.amazonaws.com/uifaces/faces/twitter/lmjabreu/128.jpg',
-      newMovieYear: '' || '2018-02-14T05:30:29.486Z'
+      newMovieYear: '' || '2016-05-15'
     }
   }
 
@@ -32,13 +31,15 @@ export default class AddModal extends Component {
           alignContent:'center',
           justifyContent:'center',
           alignItems: 'center',
-          backgroundColor: 'rgba(255,255,255,0.9)',
+          backgroundColor: 'rgba(255,255,255,1)',
           shadowRadius: 10,
-          height: 250,
-          padding: 30,
-          borderRadius: Platform.OS === 'ios' ? 30 : 0
+          height: 300,
+          // padding: 30,
+          borderRadius: Platform.OS === 'ios' ? 30 : 20
         }}>
-        <Text style={{fontSize: 18,fontWeight:'bold',padding:10}}>Add a new movie</Text>
+
+        <Text style={{fontSize: 18,fontWeight:'bold',padding:10}}>Add a new item</Text>
+
         <TextInput
           style={styles.textInput}
           placeholder="Enter title movie"
@@ -46,13 +47,31 @@ export default class AddModal extends Component {
           value={this.state.newMovieName}
         >
         </TextInput>
-        <TextInput
-          style={styles.textInput}
-          placeholder="Enter year"
-          onChangeText={(text) => this.setState({ newMovieYear: text })}
-          value={this.state.newMovieYear}
-        >
-        </TextInput>
+
+        <DatePicker
+          style={{width: 200}}
+          date={this.state.newMovieYear}
+          mode="date"
+          placeholder="Select date"
+          format="DD-MM-YYYY"
+          minDate="01-01-2000"
+          maxDate="01-01-2020"
+          confirmBtnText="Confirm"
+          cancelBtnText="Cancel"
+          customStyles={{
+            dateIcon: {
+              position: 'absolute',
+              left: 0,
+              top: 4,
+              marginLeft: 0
+            },
+            dateInput: {
+              marginLeft: 36
+            }
+          }}
+          onDateChange={(date) => {this.setState({newMovieYear: date})}}
+        />
+
         <TextInput
           style={styles.textInput}
           placeholder="Enter url image"
@@ -74,7 +93,7 @@ export default class AddModal extends Component {
               }
 
               insertNewFromServer(newMovie);
-              this.setState({ modalVisible: false })
+              this.setState({ modalVisible: false, newMovieName: '', newMovieYear: '01-01-2019' })
               this.props.parentFlatlist._refreshDataFromServer(); //auto reload
             }}
             style={{padding: 30}}>

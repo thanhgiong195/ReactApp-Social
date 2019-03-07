@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import {StyleSheet, Dimensions, Platform, Text, View, TextInput} from 'react-native';
+import {StyleSheet, Platform, Text, View, TextInput} from 'react-native';
 import Modal from 'react-native-modal';
 import Button from 'react-native-button';
 import {updateItem} from './networking/Server';
-
-var screen = Dimensions.get('window');
+import DatePicker from 'react-native-datepicker'
 
 export default class EditModal extends Component {
 
@@ -39,11 +38,11 @@ export default class EditModal extends Component {
           alignContent:'center',
           justifyContent:'center',
           alignItems: 'center',
-          backgroundColor: 'rgba(255,255,255,0.9)',
+          backgroundColor: 'rgba(255,255,255,1)',
           shadowRadius: 10,
-          height: 250,
-          padding: 30,
-          borderRadius: Platform.OS === 'ios' ? 30 : 0
+          height: 300,
+          // padding: 30,
+          borderRadius: Platform.OS === 'ios' ? 30 : 20
         }}>
         <Text style={{fontSize: 18,fontWeight:'bold',padding:10}}>Edit a movie</Text>
         <TextInput
@@ -53,13 +52,31 @@ export default class EditModal extends Component {
           value={this.state.editMovieName}
         >
         </TextInput>
-        <TextInput
-          style={styles.textInput}
-          placeholder="Enter year"
-          onChangeText={(text) => this.setState({ editMovieYear: text })}
-          value={this.state.editMovieYear}
-        >
-        </TextInput>
+
+        <DatePicker
+          style={{width: 200}}
+          date={this.state.editMovieYear}
+          mode="date"
+          placeholder="Select date"
+          format="DD-MM-YYYY"
+          minDate="01-01-2000"
+          maxDate="01-01-2020"
+          confirmBtnText="Confirm"
+          cancelBtnText="Cancel"
+          customStyles={{
+            dateIcon: {
+              position: 'absolute',
+              left: 0,
+              top: 4,
+              marginLeft: 0
+            },
+            dateInput: {
+              marginLeft: 36
+            }
+          }}
+          onDateChange={(date) => {this.setState({editMovieYear: date})}}
+        />
+
         <TextInput
           style={styles.textInput}
           placeholder="Enter url image"
