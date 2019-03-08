@@ -1,5 +1,3 @@
-import React, { Component } from 'react'
-import { Text, View } from 'react-native'
 const apiDATA= 'http://5c0644c8c16e120013947983.mockapi.io/listMovies'
 const apiDATA2= 'http://5c0644c8c16e120013947983.mockapi.io/listMovies/'
 

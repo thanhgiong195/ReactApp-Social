@@ -2,8 +2,8 @@ import React, {Component} from 'react';
 import { TouchableOpacity, StyleSheet, ActivityIndicator, View, FlatList, RefreshControl } from 'react-native';
 import {COLOR_PINK_LIGHT, COLOR_PINK_MEDIUM} from './myColor';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import AddModal from './AddModal'
-import EditModal from './EditModal'
+import AddModal from './modals/AddModal'
+import EditModal from './modals/EditModal'
 import FlatListItem from './FlatListItem'
 import { getDataFromServer } from './networking/Server';
 import { Item, Input, Header, Icon } from 'native-base';
