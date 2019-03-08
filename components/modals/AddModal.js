@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {StyleSheet, Platform, Text, View, TextInput} from 'react-native';
 import Modal from 'react-native-modal';
 import Button from 'react-native-button';
-import {insertNewFromServer} from './networking/Server';
+import {insertNewFromServer} from '../networking/Server';
 import DatePicker from 'react-native-datepicker'
 
 export default class AddModal extends Component {

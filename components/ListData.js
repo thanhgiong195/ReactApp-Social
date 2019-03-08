@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
-import {Text,TouchableOpacity, StyleSheet, ActivityIndicator, View, FlatList, RefreshControl} from 'react-native';
-import {COLOR_PINK, COLOR_PINK_LIGHT, COLOR_FACEBOOK, COLOR_PINK_MEDIUM} from './myColor';
+import { TouchableOpacity, StyleSheet, ActivityIndicator, View, FlatList, RefreshControl } from 'react-native';
+import {COLOR_PINK_LIGHT, COLOR_PINK_MEDIUM} from './myColor';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import AddModal from './AddModal'
-import EditModal from './EditModal'
+import AddModal from './modals/AddModal'
+import EditModal from './modals/EditModal'
 import FlatListItem from './FlatListItem'
-import {getDataFromServer} from './networking/Server';
+import { getDataFromServer } from './networking/Server';
+import { Item, Input, Header, Icon } from 'native-base';
 
 export default class ListData extends Component {
 
@@ -59,24 +60,22 @@ export default class ListData extends Component {
     }
     return (
       <View style={{flex: 1}}>
-        <View 
-          style={{
-            height: 45,
-            flexDirection: 'row',
-            justifyContent:'flex-end',
-            alignItems: 'center',
-            borderBottomColor: 'gray',
-            borderBottomWidth: 0.5,
-            backgroundColor: '#3f51b5'
-          }}>
-          <TouchableOpacity style={{marginRight: 20}} onPress={this._onPressAdd}>
-            <Ionicons 
-              name="ios-add-circle-outline" 
-              size={30} 
-              color={'white'}
-            ></Ionicons>
-          </TouchableOpacity>
-        </View>
+        <Header searchBar rounded style={{height: 45}}>
+          <Item style={{height: 30}}>
+            <Icon name="ios-search" />
+            <Input placeholder="Search" />
+            <Icon name="ios-people" />
+          </Item>
+          <View style={{justifyContent: 'center', alignItems: 'center'}}>
+            <TouchableOpacity style={{marginRight: 20}} onPress={this._onPressAdd}>
+              <Ionicons 
+                name="md-add-circle" 
+                size={30} 
+                color={'white'}
+              ></Ionicons>
+            </TouchableOpacity>
+          </View>
+        </Header>
 
         <FlatList 
           data={this.state.dataMovies}
