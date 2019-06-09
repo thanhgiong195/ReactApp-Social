@@ -66,8 +66,8 @@ export default class ListData extends Component {
             <Input placeholder="Search" />
             <Icon name="ios-people" />
           </Item>
-          <View style={{justifyContent: 'center', alignItems: 'center'}}>
-            <TouchableOpacity style={{marginRight: 20}} onPress={this._onPressAdd}>
+          <View style={{justifyContent: 'center', alignItems: 'center', marginLeft: 10}}>
+            <TouchableOpacity onPress={this._onPressAdd}>
               <Ionicons 
                 name="md-add-circle" 
                 size={30} 

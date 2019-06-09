@@ -56,7 +56,8 @@ export default class FlatListItem extends Component {
           onPress={() => this.props.navigation.navigate('DetailsItem', {
             title: this.props.item.title,
             img_url: this.props.item.image,
-            releaseYear: this.props.item.releaseYear
+            releaseYear: this.props.item.releaseYear,
+            description: this.props.item.description
           })}>
           <View 
             style={{

@@ -7,13 +7,14 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   Keyboard,
-  Button
+  Button,
+  AsyncStorage
 } from 'react-native';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { COLOR_FACEBOOK, COLOR_PINK_MEDIUM } from '../myColor';
-import { LoginManager, AccessToken } from 'react-native-fbsdk'
+import { LoginManager, AccessToken, GraphRequest, GraphRequestManager } from 'react-native-fbsdk'
 export default class Login extends Component {
 
   constructor(props) {
@@ -22,6 +23,29 @@ export default class Login extends Component {
       email: '',
       password: '',
       accessToken: null
+    }
+  }
+
+  _storeToken = async (data) => {
+    try {
+      await AsyncStorage.setItem('@MyTokenFB', data.accessToken);
+      console.log('Save token success');
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  _responseInfoCallback(error, result) {
+    if (error) {
+      console.log('Error fetching data: ' + error.toString());
+    } else {
+      console.log(Object.keys(result)); //print object
+      dataUser = JSON.parse(JSON.stringify(result)); // result => JSON
+      console.log(dataUser); //print object
+      AsyncStorage.setItem('@MyID', dataUser.id);
+      AsyncStorage.setItem('@MyName', dataUser.name);
+      AsyncStorage.setItem('@MyEmail', dataUser.email);
+      AsyncStorage.setItem('@MyAvatar', dataUser.picture.data.url);
     }
   }
 
@@ -36,10 +60,30 @@ export default class Login extends Component {
         return AccessToken.getCurrentAccessToken();
       })
       .then((data) => {
-        this.setState({
-          accessToken: data.accessToken
-        })
-        if (this.state.accessToken) {
+        this._storeToken(data);
+
+        AccessToken.getCurrentAccessToken().then(
+          (data) => {
+            const infoRequest = new GraphRequest(
+              '/me',
+              {
+                parameters: {
+                  fields: {
+                    string: 'email,name,id,picture' // what you want to get
+                  },
+                  accesstoken: {
+                    string: data.accessToken // put your accessToken here
+                  }
+                }
+              },
+              this._responseInfoCallback,
+            );
+            // Start the graph request.
+            new GraphRequestManager().addRequest(infoRequest).start();
+          }
+        )
+
+        if (data) {
           this.props.navigation.navigate("Mainscreen")
         }
       })

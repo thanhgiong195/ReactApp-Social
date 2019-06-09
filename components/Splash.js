@@ -38,6 +38,7 @@ export default class Splash extends Component {
         duration: 1000,
       }),
     ]).start(() => {
+      //this.props.navigation.navigate("AccountUser")
       if (this.state.accessToken) {
         this.props.navigation.navigate("Mainscreen")
       } else {

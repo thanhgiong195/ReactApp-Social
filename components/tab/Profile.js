@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
-import {Text, View, Image, Dimensions} from 'react-native';
+import {Text, View, Image, TouchableOpacity, Dimensions, AsyncStorage} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { Container, Content, TouchableOpacity, Header, Left, Right, Body, Icon, Button} from 'native-base'
+import { Container, Content, Header, Left, Right, Body, Icon, Button} from 'native-base'
 import CardComponent from '../CardComponent'
-import { AccessToken, LoginButton  } from 'react-native-fbsdk'
+import { AccessToken, LogoutButton, LoginManager } from 'react-native-fbsdk'
 import ImagePicker from 'react-native-image-picker';
 
 var images = [
@@ -43,8 +43,21 @@ export default class Settings extends Component {
     super(props)
     this.state = {
       activeIndex: 0,
-      imgSource: null
+      imgSource: null,
+      userID: '',
+      userName: '',
+      userEmail: '',
+      userAvatar: '../../images/default-avatar.jpg',
+      tokenFB: ''
     }
+  }
+
+  componentWillMount = () => {
+    AsyncStorage.getItem('@MyTokenFB').then((value) => this.setState({ tokenFB : value }))
+    AsyncStorage.getItem('@MyID').then((value) => this.setState({ userID : value }))
+    AsyncStorage.getItem('@MyName').then((value) => this.setState({ userName : value }))
+    AsyncStorage.getItem('@MyEmail').then((value) => this.setState({ userEmail : value }))
+    AsyncStorage.getItem('@MyAvatar').then((value) => this.setState({ userAvatar : value }))
   }
 
   segmentClicker = (index) => {
@@ -99,7 +112,7 @@ export default class Settings extends Component {
       return images.map((image,index) => {
         return(
           <View key={index}>
-            <CardComponent imageSource={image} />
+            <CardComponent imageSource={image} userName={this.state.userName}/>
           </View>
         )
       })
@@ -110,16 +123,16 @@ export default class Settings extends Component {
     return (
       <Container style={{flex:1, backgroundColor: 'while'}}>
           <Header style={{height:45, justifyContent:'space-around'}}>
-              <Button onPress={()=> this.chooseImage()}><Ionicons name="ios-camera" size={25} color={'white'} style={{paddingLeft: 10}}
+              <Button button transparent onPress={()=> this.chooseImage()}><Ionicons name="ios-camera" size={25} color={'white'} style={{paddingLeft: 10}}
                     ></Ionicons></Button>
-             <Body><Text style={{color: '#fff'}}>BebeGalaxy</Text></Body>
+             <Body><Text style={{color: '#fff'}}>{this.state.userName}</Text></Body>
              <Right><Ionicons name="ios-send" size={25} color={'white'} style={{paddingRight: 10}}></Ionicons></Right>
           </Header>
           <Content>
             <View style={{paddingTop: 10}}>
               <View style={{ flexDirection: 'row'}}>
                 <View style={{flex:1, alignItems: 'center'}}>
-                  <Image source={require('../../images/avarta1.jpg')} style={{width:75,height:75, borderRadius: 50}}></Image>
+                  <Image source={{uri:this.state.userAvatar}} style={{width:75,height:75, borderRadius: 50}}></Image>
                 </View>
                 <View style={{flex:3}}>
                   <View style={{flexDirection:'row', justifyContent: 'space-around'}}>
@@ -140,36 +153,17 @@ export default class Settings extends Component {
                     <Button bordered dark style={{flex:3, marginLeft:10, justifyContent: 'center', height:30}}>
                       <Text>Edit profile</Text>
                     </Button>
-                    <Button bordered dark style={{flex:1, marginRight:10, marginLeft: 5, justifyContent: 'center', height:30}}>
-                      <Icon name="settings"></Icon>
+                    <Button button bordered dark style={{flex:1, marginRight:10, marginLeft: 5, justifyContent: 'center', height:30}}>
+                      <Icon name='cog' />
                     </Button>
-                  </View>
-                  <View>
-                    <LoginButton
-                      onLoginFinished={
-                        (error, result) => {
-                          if (error) {
-                            console.log("login has error: " + result.error);
-                          } else if (result.isCancelled) {
-                            console.log("login is cancelled.");
-                          } else {
-                            AccessToken.getCurrentAccessToken().then(
-                              (data) => {
-                                console.log(data.accessToken.toString())
-                              }
-                            )
-                          }
-                        }
-                      }
-                      onLogoutFinished={() => console.log("logout.")}/>
                   </View>
                 </View>
               </View>
 
               <View style={{paddingVertical: 10, paddingHorizontal: 10}}>
-                <Text style={{fontWeight: 'bold'}}>BebeGalaxy</Text>
-                <Text>Lark | Dev ReactNative</Text>
-                <Text>www.fb.com/giongbt</Text>
+                <Text style={{fontWeight: 'bold'}}>{this.state.userName}</Text>
+                <Text>Email: {this.state.userEmail}</Text>
+                <Text>www.fb.com/{this.state.userID}</Text>
               </View>
 
               <View>
